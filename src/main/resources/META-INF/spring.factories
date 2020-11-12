@@ -1,0 +1,4 @@
+org.springframework.context.ApplicationListener=\
+com.asarkar.spring.test.redis.EmbeddedRedisApplicationListener
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.asarkar.spring.test.redis.EmbeddedRedisAutoConfiguration
