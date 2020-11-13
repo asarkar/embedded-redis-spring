@@ -7,6 +7,7 @@ import java.lang.annotation.Inherited
 
 /**
  * Annotation for test classes that want to start a Redis server as part of the Spring application Context.
+ *
  * @property serverConfigurerClass [EmbeddedRedisConfigurer] implementation class. Defaults to empty string.
  * @property port Redis server port. Defaults to 6379. Set 0 to use a random port.
  *

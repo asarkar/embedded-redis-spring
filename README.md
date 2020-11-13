@@ -46,7 +46,8 @@ public class AutoConfigureWithRandomPortsTest {
 
 If you want to configure the `RedisServer` before it's started, provide an implementation for
 [EmbeddedRedisConfigurer](src/main/kotlin/com/asarkar/spring/test/redis/EmbeddedRedisConfigurer.kt), and set the 
-class name in the annotation element `serverConfigurerClass`.
+class name in the annotation element `serverConfigurerClass`. If a Spring bean of this type exists, it'll be used; 
+otherwise, a new instance will be created using the public no-argument constructor.
 
 See KDoc for more details.
 

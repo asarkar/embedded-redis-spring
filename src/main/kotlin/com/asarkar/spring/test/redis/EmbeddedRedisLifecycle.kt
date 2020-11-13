@@ -1,6 +1,7 @@
 package com.asarkar.spring.test.redis
 
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.SmartLifecycle
 import org.springframework.util.ReflectionUtils
@@ -15,7 +16,10 @@ open class EmbeddedRedisLifecycle : SmartLifecycle {
     @Value("\${embedded-redis.port:-1}")
     var port: Int = -1
 
-    lateinit var redisServer: RedisServer
+    @Autowired(required = false)
+    private var serverConfigurerBean: EmbeddedRedisConfigurer? = null
+
+    private lateinit var redisServer: RedisServer
 
     override fun start() {
         if (isRunning || port <= 0) return
@@ -31,6 +35,9 @@ open class EmbeddedRedisLifecycle : SmartLifecycle {
     private fun serverConfigurer(): EmbeddedRedisConfigurer? {
         return if (serverConfigurerClass.isNotEmpty()) {
             val clazz = Class.forName(serverConfigurerClass)
+            if (serverConfigurerBean != null) {
+                return serverConfigurerBean
+            }
             return try {
                 ReflectionUtils.accessibleConstructor(clazz as Class<EmbeddedRedisConfigurer>)
                     .newInstance()
