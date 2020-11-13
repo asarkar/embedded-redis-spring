@@ -17,7 +17,7 @@ The only thing you need is the `AutoConfigureEmbeddedRedis` annotation:
 
 ```
 @SpringBootTest
-@@AutoConfigureEmbeddedRedis
+@AutoConfigureEmbeddedRedis
 public class AutoConfigureWithKnownPortsTest {
     @Test
     public void testConnection() {
