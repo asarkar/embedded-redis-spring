@@ -1,9 +1,14 @@
+import java.util.Base64
+
 plugins {
     kotlin("jvm")
+    id("org.springframework.boot") apply false
     `maven-publish`
     id("org.jetbrains.dokka")
     id("org.jlleitschuh.gradle.ktlint")
-    id("com.jfrog.bintray")
+    id("io.github.gradle-nexus.publish-plugin")
+    id("org.jetbrains.kotlin.plugin.spring")
+    signing
 }
 
 val projectGroup: String by project
@@ -14,21 +19,30 @@ version = projectVersion
 description = projectDescription
 
 repositories {
+    mavenCentral()
     jcenter()
 }
 
+apply(plugin = "io.spring.dependency-management")
+
 val jUnitVersion: String by project
-val springBootVersion: String by project
+the<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension>().apply {
+    imports {
+        mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+        mavenBom("org.junit:junit-bom:$jUnitVersion")
+    }
+}
+
 val embeddedRedisVersion: String by project
 val lettuceVersion: String by project
 dependencies {
-    implementation(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     implementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "com.vaadin.external.google")
     }
-    implementation("it.ozimov:embedded-redis:$embeddedRedisVersion")
+    implementation("it.ozimov:embedded-redis:$embeddedRedisVersion") {
+        exclude(group = "org.slf4j", module = "slf4j-simple")
+    }
     testImplementation("org.springframework.boot:spring-boot-starter")
-    testImplementation(platform("org.junit:junit-bom:$jUnitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("io.lettuce:lettuce-core:$lettuceVersion")
@@ -122,33 +136,22 @@ publishing {
     }
 }
 
-val bintrayRepo: String by project
-val projectLabels: String by project
-bintray {
-    user = (findProperty("bintrayUser") ?: System.getenv("BINTRAY_USER"))?.toString()
-    key = (findProperty("bintrayKey") ?: System.getenv("BINTRAY_KEY"))?.toString()
-    setPublications(*publishing.publications.names.toTypedArray())
-    with(pkg) {
-        repo = bintrayRepo
-        name = "${project.group}:${project.name}"
-        desc = project.description
-        websiteUrl = "https://$gitHubUrl"
-        vcsUrl = "https://$gitHubUrl.git"
-        setLabels(*projectLabels.split(",".toRegex()).map { it.trim() }.toTypedArray())
-        setLicenses(licenseName)
-        with(version) {
-            name = project.version.toString()
-            with(gpg) {
-                sign = true
-            }
-            with(mavenCentralSync) {
-                sync = true
-                user = (findProperty("sonatypeUser") ?: System.getenv("SONATYPE_USER"))?.toString()
-                password = (findProperty("sonatypePwd") ?: System.getenv("SONATYPE_PWD"))?.toString()
-            }
+fun base64Decode(prop: String): String? {
+    return project.findProperty(prop)?.let {
+        String(Base64.getDecoder().decode(it.toString())).trim()
+    }
+}
+
+signing {
+    useInMemoryPgpKeys(base64Decode("signingKey"), base64Decode("signingPassword"))
+    sign(*publishing.publications.toTypedArray())
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            username.set(base64Decode("sonatypeUsername"))
+            password.set(base64Decode("sonatypePassword"))
         }
     }
-    publish = true
-    override = false
-    dryRun = false
 }
