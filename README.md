@@ -7,9 +7,7 @@ Requires Java 8 or later. Uses [embedded-redis](https://github.com/ozimov/embedd
 
 ## Installation
 
-You can find the latest version on Bintray. [ ![Download](https://api.bintray.com/packages/asarkar/mvn/com.asarkar.spring%3Aembedded-redis-spring/images/download.svg) ](https://bintray.com/asarkar/mvn/com.asarkar.spring%3Aembedded-redis-spring/_latestVersion)
-
-It is also on Maven Central and jcenter.
+You can find the latest version on [Maven Central](https://search.maven.org/search?q=g:com.asarkar.spring%20AND%20a:embedded-redis-spring).
 
 ## Usage
 
@@ -54,8 +52,8 @@ See KDoc for more details.
 ## Contribute
 
 This project is a volunteer effort. You are welcome to send pull requests, ask questions, or create issues.
-If you like it, you can help by spreading the word!
+you can help by spreading the word and "Starring" the GitHub repo!
 
 ## License
 
-Copyright 2020 Abhijit Sarkar - Released under [Apache License v2.0](LICENSE).
+Copyright 2021 Abhijit Sarkar - Released under [Apache License v2.0](LICENSE).
