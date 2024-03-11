@@ -5,7 +5,6 @@ import org.springframework.context.ApplicationListener
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
 import org.springframework.core.env.MapPropertySource
-import org.springframework.util.SocketUtils
 
 @Order(Ordered.LOWEST_PRECEDENCE)
 open class EmbeddedRedisApplicationListener : ApplicationListener<ApplicationPreparedEvent> {
