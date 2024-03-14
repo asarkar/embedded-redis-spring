@@ -40,7 +40,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
         exclude(group = "com.vaadin.external.google")
     }
-    implementation("it.ozimov:embedded-redis:$embeddedRedisVersion") {
+    implementation("org.signal:embedded-redis:$embeddedRedisVersion") {
         exclude(group = "org.slf4j", module = "slf4j-simple")
     }
     testImplementation("org.springframework.boot:spring-boot-starter:$springBootVersion")
