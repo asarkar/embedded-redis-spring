@@ -3,7 +3,7 @@
 Starts a Redis server and makes the port available as Spring Boot environment property. Stops the server when the
 Spring context is destroyed.
 
-Requires Java 8 or later. Uses [embedded-redis](https://github.com/ozimov/embedded-redis) and [Spring Boot](https://spring.io/projects/spring-boot). 
+Requires Java 8 or later. Uses [embedded-redis](https://github.com/signalapp/embedded-redis) and [Spring Boot](https://spring.io/projects/spring-boot). 
 
 ## Installation
 

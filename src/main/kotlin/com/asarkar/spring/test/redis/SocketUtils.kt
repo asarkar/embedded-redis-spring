@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2020 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.asarkar.spring.test.redis
 
 import org.springframework.util.Assert
@@ -33,13 +18,8 @@ import javax.net.ServerSocketFactory
  * From Springboot 3.2.3 version, SocketUtils cannot be used.
  * org.springframework.test.util.TestSocketUtils can be used as an alternative, but embedded-redis-spring has to support older versions, so org.springframework.util.SocketUtils was copied.
  *
- * @author Sam Brannen
- * @author Ben Hale
- * @author Arjen Poutsma
- * @author Gunnar Hillert
- * @author Gary Russell
  * @author fennec-fox
- * @since 4.0
+ * @since 1.1.2
  */
 object SocketUtils {
     /**
@@ -135,13 +115,7 @@ object SocketUtils {
             var searchCounter = 0
             do {
                 check(searchCounter <= portRange) {
-                    String.format(
-                        "Could not find an available %s port in the range [%d, %d] after %d attempts",
-                        name,
-                        minPort,
-                        maxPort,
-                        searchCounter
-                    )
+                    "Could not find an available $name port in the range [$minPort, $maxPort] after $searchCounter attempts"
                 }
                 candidatePort = findRandomPort(minPort, maxPort)
                 searchCounter++
